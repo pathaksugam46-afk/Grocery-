@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nepali Grocery – Item Menu</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light;--g:#16A34A;--gd:#166534;--paper:#fffdf8;--page:#f3efe4;--ink:#22281f;--mu:#6b705f;--line:#d9d3bf;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*:before,*:after{box-sizing:inherit}
+body{margin:0;background:var(--page);color:var(--ink);font-family:Lora,Georgia,'Times New Roman',serif;line-height:1.65}
+.sheet{max-width:1000px;margin:24px auto;padding:10px;background:var(--paper);border:1px solid var(--line);box-shadow:0 10px 40px rgba(60,50,20,.12)}
+.frame{border:2px solid var(--gd);padding:6px}
+.inner{border:1px solid var(--gd);padding:44px 40px 36px}
+header{text-align:center}
+.orn{color:var(--g);letter-spacing:.6em;font-size:.9rem}
+h1{font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:clamp(2rem,6vw,3.4rem);line-height:1.1;margin:10px 0 6px;color:var(--gd)}
+.sub{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:1.3rem;color:var(--mu);margin:0}
+.rule{display:flex;align-items:center;gap:14px;margin:22px auto;max-width:420px;color:var(--g)}
+.rule:before,.rule:after{content:"";flex:1;border-top:1px solid var(--g)}
+.search{max-width:380px;margin:0 auto}
+.search input{width:100%;padding:10px 6px;border:0;border-bottom:1.5px solid var(--gd);background:transparent;color:var(--ink);font:italic 1.15rem 'Cormorant Garamond',Georgia,serif;text-align:center}
+.search input:focus{outline:none;border-color:var(--g);background:#f4faf0}
+nav{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 18px;margin:22px 0 0;font-family:'Cormorant Garamond',Georgia,serif;font-size:1.1rem}
+nav button{background:none;border:0;border-bottom:2px solid transparent;padding:2px 0;color:var(--mu);font:inherit;cursor:pointer;transition:color .2s,border-color .2s}
+nav button:hover{color:var(--gd)}
+nav button.on{color:var(--gd);border-color:var(--g);font-weight:600}
+nav button:focus-visible{outline:2px solid var(--g);outline-offset:3px}
+.cols{columns:2 340px;column-gap:56px;margin-top:34px}
+.sec{break-inside:avoid;margin:0 0 34px}
+.sec h2{font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:1.45rem;color:var(--gd);margin:0;display:flex;align-items:baseline;gap:10px;border-bottom:2px double var(--g);padding-bottom:6px}
+.sec h2 small{margin-left:auto;font:italic 1rem 'Cormorant Garamond',Georgia,serif;color:var(--mu)}
+ul{list-style:none;margin:10px 0 0;padding:0}
+li{display:flex;align-items:baseline;gap:8px;padding:5px 0;font-size:1rem;transition:color .2s,padding-left .2s}
+li:before{content:"";flex:none;width:5px;height:5px;background:var(--g);transform:rotate(45deg);align-self:center}
+li:after{content:"";flex:1;order:2;border-bottom:1px dotted var(--line);transform:translateY(-4px)}
+li span{order:1}
+li:hover{color:var(--g);padding-left:6px}
+.soon{font:italic 1.05rem 'Cormorant Garamond',Georgia,serif;color:var(--mu);margin:12px 0 0}
+mark{background:#d7f3dc;color:inherit;padding:0 2px}
+.empty{display:none;text-align:center;font:italic 1.2rem 'Cormorant Garamond',Georgia,serif;color:var(--mu);padding:30px 0}
+footer{text-align:center;margin-top:8px;font:italic 1.05rem 'Cormorant Garamond',Georgia,serif;color:var(--mu)}
+.tel{color:var(--gd);font-style:normal;font-weight:600;text-decoration:none;border-bottom:1px solid var(--g)}
+.tel:hover{color:var(--g)}
+@media(max-width:560px){.sheet{margin:0;padding:6px}.inner{padding:30px 18px 24px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="sheet"><div class="frame"><div class="inner">
+<header>
+<div class="orn">✦ ✦ ✦</div>
+<h1>Grocery Menu</h1>
+<p class="sub">A complete list of what we keep on our shelves</p>
+<div class="rule">❖</div>
+<div class="search"><input id="q" type="search" placeholder="Search for an item…" aria-label="Search items"></div>
+<nav id="nav" aria-label="Categories"></nav>
+</header>
+<div class="cols" id="cols"></div>
+<div class="empty" id="empty">Nothing on the menu matches your search.</div>
+<div class="rule">❖</div>
+<footer>For browsing only. Ask in store for availability and prices.<br>Call us: <a class="tel" href="tel:+9779702692122">+977 9702692122</a></footer>
+</div></div></div>
+
+<script>
+const D=[
+["Rice / Chamal","Basmati Rice,Mansuli Rice,Jeera Masino Rice,Sona Mansuli Rice,Anadi Rice,Steam Rice,Brown Rice,Broken Rice"],
+["Dal","Musuro Dal,Mung Dal,Mas Dal,Kalo Dal,Chana Dal,Rahar Dal,Arhar Dal,Urad Dal"],
+["Geda Gudi","Chana,Kalo Chana,Rajma,Kerau,Seto Kerau,Bhatmas,Gahat,Bodi,Simi,Matar"],
+["Pitho / Flour","Gahu ko Pitho,Maida,Besan,Chamalko Pitho,Mako Pitho,Kodoko Pitho,Faparko Pitho,Jauko Pitho,Sattu"],
+["Cooking Oil","Tori ko Tel,Sunflower Oil,Soyabean Oil,Rice Bran Oil,Palm Oil,Til ko Tel,Coconut Oil"],
+["Gheu","Gai ko Gheu,Bhaisi ko Gheu,Banaspati Gheu"],
+["Chini / Sugar","Seto Chini,Brown Sugar,Mishri,Sakkhar,Gud"],
+["Nun / Salt","Iodized Nun,Sadharan Nun,Kalo Nun,Dhike Nun"],
+["Sabut Masala","Jeera,Dhaniya,Marich,Sukeko Khursani,Methi,Tori,Saunf,Ajwain,Tejpat,Elaichi,Laung,Dalchini,Jaiphal,Javitri,Timur"],
+["Masala Powder","Besar Powder,Khursani Powder,Dhaniya Powder,Jeera Powder,Marich Powder,Garam Masala,Masu Masala,Chicken Masala,Chat Masala,Curry Masala,Biryani Masala,Momo Masala"],
+["Dry Fruits",""],
+["Seeds / Biu","Til,Alsi,Chia Seed,Farsi ko Biu,Sunflower Seed"],
+["Noodles","Wai Wai,Rara,Mayos,Current,2PM,Chowmein Noodles,Hakka Noodles,Semiya"],
+["Pasta","Macaroni,Spaghetti,Penne Pasta,Pasta"],
+["Sauce","Tomato Ketchup,Chilli Sauce,Soy Sauce,Hot Sauce,Green Chilli Sauce,Red Chilli Sauce,Mustard Sauce,Vinegar,Mayonnaise"],
+["Achar","Aap ko Achar,Kagati ko Achar,Khursani ko Achar,Lasun ko Achar,Mula ko Achar,Mixed Achar,Timur ko Achar,Amla ko Achar"],
+["Nashta Items","Chiura,Murmura,Poha,Oats,Daliya,Corn Flakes,Sattu,Bhuteko Chana,Bhuja"],
+["Baking Items","Baking Powder,Baking Soda,Dry Yeast,Custard Powder,Corn Flour,Cocoa Powder,Vanilla Essence,Food Colour"],
+["Dairy Items","Milk Powder,Butter,Cheese,Paneer,Cream,Dahi,Khoya,Condensed Milk"],
+["Papad / Frying Items","Plain Papad,Masala Papad,Urad Papad,Rice Papad,Aalu Fryums,Dal Fryums"],
+["Tarkari / Vegetables","Aalu,Pyaj,Golbheda,Lasun,Aduwa,Hariyo Khursani,Kauli,Banda,Gajar,Mula,Kakro,Bhanta,Bhindi,Karela,Lauka,Farsi,Palungo,Dhaniya,Hariyo Matar,Simi,Chyau,Bhede Khursani,Hariyo Pyaj,Kagati"],
+["Sweet / Spread Items","Mah,Jam,Peanut Butter,Chocolate Spread,Sakkhar,Gud"],
+["Local Nepali Items","Gundruk,Sinkhi,Timur,Chhurpi,Kodo ko Pitho,Fapar ko Pitho,Gahat,Bodi,Anadi Rice,Sukuti"]
+].map(([n,s])=>({n,items:s?s.split(","):[]}));
+
+const cols=document.getElementById('cols'),nav=document.getElementById('nav'),q=document.getElementById('q'),empty=document.getElementById('empty');
+let cat=null;
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const rx=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+function mk(label,val){const b=document.createElement('button');b.textContent=label;b.onclick=()=>{cat=val;render()};b.dataset.v=val===null?'':val;return b}
+nav.append(mk('All',null));D.forEach((d,i)=>nav.append(mk(d.n.split(' /')[0],i)));
+
+function render(){
+  const t=q.value.trim().toLowerCase();
+  [...nav.children].forEach(c=>c.classList.toggle('on',c.dataset.v===(cat===null?'':String(cat))));
+  let h='',shown=0;
+  D.forEach((d,i)=>{
+    if(cat!==null&&cat!==i)return;
+    let items=d.items;
+    if(t){items=items.filter(x=>x.toLowerCase().includes(t));if(!items.length)return}
+    shown++;
+    const hl=x=>t?esc(x).replace(new RegExp('('+rx(esc(t))+')','ig'),'<mark>$1</mark>'):esc(x);
+    h+=`<section class="sec"><h2>${esc(d.n)}${d.items.length?`<small>${items.length} items</small>`:''}</h2>`+
+      (items.length?`<ul>${items.map(x=>`<li><span>${hl(x)}</span></li>`).join('')}</ul>`:'<p class="soon">Items coming soon.</p>')+'</section>';
+  });
+  cols.innerHTML=h;empty.style.display=shown?'none':'block';
+}
+q.addEventListener('input',()=>{cat=null;render()});
+render();
+</script>
+</body>
+</html>
